@@ -6,9 +6,14 @@
 
 {% block body %}
     <h1>test</h1>
+    <h1>{{ title | safe }}</h1>
 
-    
-    {{ content|safe }}
+
+    <div >
+        {{ content | safe }}
+      
+    </div>
+   
   
     
 {% endblock %}

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import markdown2
+from markdown2 import Markdown
 
 
 from . import util
@@ -14,7 +15,8 @@ def index(request):
     })
 
 
-def entry(request, name):
+def entry(request, title):
     return render(request, "encyclopedia/entry.html", {
-        "name": name.capitalize()
+        "title": title.capitalize(),
+        "content":  markdown2.markdown(util.get_entry(title.capitalize()))
     })
