@@ -1,12 +1,20 @@
+import random
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import markdown2
 from markdown2 import Markdown
+from os import listdir
+from os.path import isfile, join
+from random import randint
+
 
 
 from . import util
+
+files = [f for f in listdir("entries") if isfile(join("entries", f))]
+
 
 
 def index(request):
@@ -27,10 +35,8 @@ def entry(request, title):
         })
     except:
         return render(request, "encyclopedia/404.html", {
-            "entries": util.list_entries()
-    
-        })
+            "entries": util.list_entries(),
+           
+       })
   
-
-
    

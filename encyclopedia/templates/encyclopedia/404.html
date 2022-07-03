@@ -1,0 +1,29 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>404</h1>
+
+    <p>Sorry, your search didn't give a result. Please try with another query. </p>
+
+    <h1>{{ title | safe }}</h1>
+    <h1>{{ cap | safe }}</h1>
+
+
+    <div >
+        {{ content | safe }}
+      
+    </div>
+   
+    <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ files }}
+    
+{% endblock %}
