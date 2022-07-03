@@ -38,5 +38,5 @@ def entry(request, title):
             "entries": util.list_entries(),
            
        })
-  
+
    
