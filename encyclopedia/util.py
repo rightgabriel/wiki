@@ -31,7 +31,10 @@ def get_entry(title):
     entry exists, the function returns None.
     """
     try:
-        f = default_storage.open(f"entries/{title}.md")
+        f = default_storage.open(f"entries/{title.capitalize()}.md")
         return f.read().decode("utf-8")
     except FileNotFoundError:
+        f = default_storage.open(f"entries/{title.upper()}.md")
+        return f.read().decode("utf-8")
+    except:
         return None

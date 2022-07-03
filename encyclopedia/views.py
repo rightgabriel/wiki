@@ -16,7 +16,18 @@ def index(request):
 
 
 def entry(request, title):
+
+    cap = title.capitalize()
+
+    
+   
     return render(request, "encyclopedia/entry.html", {
-        "title": title.capitalize(),
-        "content":  markdown2.markdown(util.get_entry(title.capitalize()))
+        "title": title,
+        "content":   markdown2.markdown(util.get_entry(title)),
+        "cap": cap
+
     })
+  
+
+
+   
