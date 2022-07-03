@@ -19,14 +19,17 @@ def entry(request, title):
 
     cap = title.capitalize()
 
+    try:
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "content":   markdown2.markdown(util.get_entry(title)),
+            "cap": cap
+        })
+    except:
+        return render(request, "encyclopedia/404.html", {
+            "entries": util.list_entries()
     
-   
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "content":   markdown2.markdown(util.get_entry(title)),
-        "cap": cap
-
-    })
+        })
   
 
 
