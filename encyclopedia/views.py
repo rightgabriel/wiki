@@ -39,4 +39,8 @@ def entry(request, title):
            
        })
 
-   
+
+def add(request):
+    return render(request, "encyclopedia/new.html", {
+        "entries": util.list_entries()
+    })
