@@ -11,8 +11,10 @@ from random import randint
 from django import forms
 from encyclopedia.forms import ContactUsForm
 from django.core.mail import send_mail
-
-
+import re
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.shortcuts import redirect
 
 from . import util
 
@@ -49,10 +51,23 @@ def contact(request):
     if request.method == 'POST':
       # create an instance of our form, and fill it with the POST data
         form = ContactUsForm(request.POST)
+       
         if form.is_valid():
+
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            util.save_entry(title, content)
+            filename = f"entries/{title}.md"
+
+            if default_storage.exists(filename):
+               
+
+                return render(request,
+                    'encyclopedia/404.html',)        
+            else:
+           
+                util.save_entry(title, content)
+                return (entry(request,title)) # add this return statement
+            
     else:
   # this must be a GET request, so create an empty form
         form = ContactUsForm() # instantiate a new form here
