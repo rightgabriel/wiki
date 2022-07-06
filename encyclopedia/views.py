@@ -8,6 +8,9 @@ from markdown2 import Markdown
 from os import listdir
 from os.path import isfile, join
 from random import randint
+from django import forms
+from encyclopedia.forms import ContactUsForm
+from django.core.mail import send_mail
 
 
 
@@ -39,8 +42,44 @@ def entry(request, title):
            
        })
 
+# partially from https://openclassrooms.com/en/courses/6967196-create-a-web-application-with-django/7349237-capture-user-input-with-django-forms
 
+def contact(request):
+  
+    if request.method == 'POST':
+      # create an instance of our form, and fill it with the POST data
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            util.save_entry(title, content)
+    else:
+  # this must be a GET request, so create an empty form
+        form = ContactUsForm() # instantiate a new form here
+    return render(request,
+          'encyclopedia/new.html',
+          {'form': form}) # pass that form to the template
+
+"""
 def add(request):
-    return render(request, "encyclopedia/new.html", {
-        "entries": util.list_entries()
+   #  task = util.save_entry("title", "f")
+
+   
+      
+    if request.method == "POST":
+        return render(request, "encyclopedia/new.html", {
+            "task": util.save_entry("one", "two")
     })
+    
+       
+            # If the form is invalid, re-render the page with existing information.
+    else: 
+
+        return render(request, "encyclopedia/new.html", {
+            
+    })
+
+"""
+
+
+
