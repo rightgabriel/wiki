@@ -15,10 +15,10 @@
       
     </div>
      
-    <form action="" method="post" novalidate name="edit">
-    {% csrf_token %}
-    {{ form.as_ul }}
-    <input type="submit" value="Edit Entry">
+    <form action="" method="get" novalidate name="edit">
+        {% csrf_token %}
+        {{ form.as_ul }}
+        <input type="submit" value="Edit Entry" name="edit">
     </form>
     
 {% endblock %}

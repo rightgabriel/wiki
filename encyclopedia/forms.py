@@ -9,5 +9,11 @@ from django.forms.widgets import Textarea
 class ContactUsForm(forms.Form):
     title = forms.CharField(required=False)
 
+    content = forms.CharField(widget=forms.Textarea)
+    
+
+class eform(forms.Form):
+    title = forms.CharField(required=False)
+
     content = forms.CharField(widget=forms.Textarea(attrs={"name": 'fe'}))
     

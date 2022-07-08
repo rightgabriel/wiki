@@ -77,10 +77,10 @@ def contact(request):
           {'form': form}) # pass that form to the template
 
 
-def edit(request, *args):
+def edit(request, *args, **kwargs):
     if request.method == 'POST':
       # create an instance of our form, and fill it with the POST data
-        form = ContactUsForm(request.POST)
+        form = ContactUsForm(request.POST, *args,**kwargs)
        
         if form.is_valid():
 
@@ -97,6 +97,6 @@ def edit(request, *args):
   # this must be a GET request, so create an empty form
         form = ContactUsForm() # instantiate a new form here
     return render(request,
-          'encyclopedia/new.html',
+          'encyclopedia/edit.html',
           {'form': form}) # pass that form to the template
 
