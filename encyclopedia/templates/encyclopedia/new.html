@@ -7,12 +7,13 @@
 {% block body %}
     <h1>New page</h1>
     
-    <form action="" method="post" novalidate name="body">
+    <form action="" method="post" novalidate name="edit">
     {% csrf_token %}
-    {{ form.as_ul }}
+    {{ form.as_p }}
+        
     <input type="submit" value="Submit">
-    </form>
     
+    </form>
 
 
 {% endblock %}

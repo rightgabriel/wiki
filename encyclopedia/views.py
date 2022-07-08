@@ -24,7 +24,8 @@ files = [f for f in listdir("entries") if isfile(join("entries", f))]
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
+        "entries": util.list_entries(),
+        "url": "entries"
     })
 
 
@@ -75,26 +76,27 @@ def contact(request):
           'encyclopedia/new.html',
           {'form': form}) # pass that form to the template
 
-"""
-def add(request):
-   #  task = util.save_entry("title", "f")
 
-   
-      
-    if request.method == "POST":
-        return render(request, "encyclopedia/new.html", {
-            "task": util.save_entry("one", "two")
-    })
-    
+def edit(request, *args):
+    if request.method == 'POST':
+      # create an instance of our form, and fill it with the POST data
+        form = ContactUsForm(request.POST)
        
-            # If the form is invalid, re-render the page with existing information.
-    else: 
+        if form.is_valid():
 
-        return render(request, "encyclopedia/new.html", {
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            filename = f"entries/{title}.md"
+
+            if default_storage.exists(filename):
+                         
+                util.save_entry(title, content)
+                return (entry(request,title)) # add this return statement
             
-    })
-
-"""
-
-
+    else:
+  # this must be a GET request, so create an empty form
+        form = ContactUsForm() # instantiate a new form here
+    return render(request,
+          'encyclopedia/new.html',
+          {'form': form}) # pass that form to the template
 
