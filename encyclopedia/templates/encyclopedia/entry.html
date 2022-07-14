@@ -14,11 +14,18 @@
         {{ content | safe }}
       
     </div>
-     
-    <form action="" method="get" novalidate name="edit">
+
+    <form action="" method="POST" novalidate>
         {% csrf_token %}
-        {{ form.as_ul }}
-        <input type="submit" value="Entry" name="edit">
-    </form>
+            <input name="title" type="hidden" ></p>
+            <input name="content" type="hidden" ></p>
+        
+        <input type="submit" value="Edit Entry" name="edit">
+    
+        </form>
+        
+       
+            
+    
     
 {% endblock %}

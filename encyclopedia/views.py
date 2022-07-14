@@ -80,7 +80,7 @@ def contact(request):
 def edit(request, *args, **kwargs):
     if request.method == 'POST':
       # create an instance of our form, and fill it with the POST data
-        form = ContactUsForm(request.POST, *args,**kwargs)
+        form = ContactUsForm(request.POST)
        
         if form.is_valid():
 
@@ -99,4 +99,40 @@ def edit(request, *args, **kwargs):
     return render(request,
           'encyclopedia/edit.html',
           {'form': form}) # pass that form to the template
+                
+def edit2(request):
+    if request.method == 'POST':
+      # create an instance of our form, and fill it with the POST data
+        form = ContactUsForm(request.POST)
+
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            filename = f"entries/{title}.md"
+            return render(request, "encyclopedia/edit.html", {
+                "title": title,
+                "content":   markdown2.markdown(util.get_entry(title)),
+           
+             })
+
+
+def q(request):
+     if request.method == 'POST':
+        q1 = request.POST['q']
+        cap = q1.capitalize()
+
+
+        try:
+            return render(request, "encyclopedia/entry.html", {
+                "q1": q1,
+                "cap": cap,
+                "content":   markdown2.markdown(util.get_entry(q1)),
+                })
+        except:
+            return render(request, "encyclopedia/search.html", {
+                "q1": q1,
+                "cap": cap,
+                "entries": util.list_entries(),
+                
+                })
 
