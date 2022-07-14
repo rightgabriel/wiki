@@ -117,22 +117,24 @@ def edit2(request):
 
 
 def q(request):
-     if request.method == 'POST':
+    
+
+    if request.method == 'POST':
         q1 = request.POST['q']
         cap = q1.capitalize()
-
+        entries = util.list_entries(),
 
         try:
             return render(request, "encyclopedia/entry.html", {
                 "q1": q1,
                 "cap": cap,
                 "content":   markdown2.markdown(util.get_entry(q1)),
+                "has": all([char in entries for char in q1])
                 })
         except:
             return render(request, "encyclopedia/search.html", {
                 "q1": q1,
                 "cap": cap,
                 "entries": util.list_entries(),
-                
                 })
 
