@@ -117,8 +117,7 @@ def edit2(request):
 
 
 def q(request):
-    
-
+ 
     if request.method == 'POST':
         q1 = request.POST['q']
         cap = q1.capitalize()
@@ -129,7 +128,7 @@ def q(request):
                 "q1": q1,
                 "cap": cap,
                 "content":   markdown2.markdown(util.get_entry(q1)),
-                "has": all([char in entries for char in q1])
+                "has": all([char in entries for char in q1]),
                 })
         except:
             return render(request, "encyclopedia/search.html", {
@@ -138,3 +137,7 @@ def q(request):
                 "entries": util.list_entries(),
                 })
 
+def random_page(request):
+    entries = util.list_entries() # list of wikis
+    selected_page = random.choice(entries)
+    return redirect("title", title=selected_page)
