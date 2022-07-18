@@ -17,17 +17,18 @@
         <p>Sorry, your search didn't give a satisfactory result. Maybe you were looking for: </p>
 
         
+        <ul>
+            {% for i in query %}
+                <li><a href='{{ i }}'>{{ i }}</a></li>
+            {% endfor %}
+        </ul>
+      
 
     </div>
 
    
 
-    {% for q1 in entries %}
-    {{ q1 }}
-{% endfor %}
+  
 
-   {{ te }}
-    {{ cap }}
-        
-    
+      
 {% endblock %}

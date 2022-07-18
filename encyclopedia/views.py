@@ -115,8 +115,16 @@ def edit2(request):
            
              })
 
+def list_q(q1):
+    """
+    Returns a list of all names of encyclopedia entries.
+    """
+    _, filenames = default_storage.listdir("entries")
+    return list(sorted(re.sub(r"\.md$", "", filename)
+                for filename in filenames if q1 in filename))
 
 def q(request):
+    
  
     if request.method == 'POST':
         q1 = request.POST['q']
@@ -135,7 +143,11 @@ def q(request):
                 "q1": q1,
                 "cap": cap,
                 "entries": util.list_entries(),
+                "query": list_q(q1)
                 })
+
+
+
 
 def random_page(request):
     entries = util.list_entries() # list of wikis
