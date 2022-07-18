@@ -21,28 +21,26 @@ from . import util
 files = [f for f in listdir("entries") if isfile(join("entries", f))]
 
 
-
+# renders a list of all entries
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
         "url": "entries"
     })
 
-
+# renders entries of entry page
 def entry(request, title):
 
     cap = title.capitalize()
 
-    try:
+    try: # if entry exist, renders it
         return render(request, "encyclopedia/entry.html", {
             "title": title,
             "content":   markdown2.markdown(util.get_entry(title)),
             "cap": cap
         })
-    except:
-        return render(request, "encyclopedia/404.html", {
-            "entries": util.list_entries(),
-           
+    except: # if entry does not exist, render error page
+        return render(request, "encyclopedia/404.html", {           
        })
 
 # partially from https://openclassrooms.com/en/courses/6967196-create-a-web-application-with-django/7349237-capture-user-input-with-django-forms
@@ -77,11 +75,22 @@ def contact(request):
           {'form': form}) # pass that form to the template
 
 
-def edit(request, *args, **kwargs):
-    if request.method == 'POST':
-      # create an instance of our form, and fill it with the POST data
+         
+# Displays content to edit page        
+def edit2(request):
+    if request.method == 'GET':
+
         form = ContactUsForm(request.POST)
-       
+        title = request.GET['title']
+
+        filename = f"entries/{title}.md"
+        return render(request, "encyclopedia/edit.html", {
+            "title": title, # render the title to the textarea
+            "content":   util.get_entry(title) # render the content to the textarea
+           
+             })
+    else:
+        form = ContactUsForm(request.POST)
         if form.is_valid():
 
             title = form.cleaned_data['title']
@@ -91,38 +100,18 @@ def edit(request, *args, **kwargs):
             if default_storage.exists(filename):
                          
                 util.save_entry(title, content)
-                return (entry(request,title)) # add this return statement
-            
-    else:
-  # this must be a GET request, so create an empty form
-        form = ContactUsForm() # instantiate a new form here
-    return render(request,
-          'encyclopedia/edit.html',
-          {'form': form}) # pass that form to the template
-                
-def edit2(request):
-    if request.method == 'POST':
-      # create an instance of our form, and fill it with the POST data
-        form = ContactUsForm(request.POST)
+                return (entry(request,title)) # edit an existing entry
 
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            content = form.cleaned_data['content']
-            filename = f"entries/{title}.md"
-            return render(request, "encyclopedia/edit.html", {
-                "title": title,
-                "content":   markdown2.markdown(util.get_entry(title)),
-           
-             })
-
+# checks for substring in query
 def list_q(q1):
     """
-    Returns a list of all names of encyclopedia entries.
+    Returns a list of all names of encyclopedia entries with substring.
     """
     _, filenames = default_storage.listdir("entries")
     return list(sorted(re.sub(r"\.md$", "", filename)
                 for filename in filenames if q1 in filename))
 
+# Search bar
 def q(request):
     
  
@@ -136,7 +125,6 @@ def q(request):
                 "q1": q1,
                 "cap": cap,
                 "content":   markdown2.markdown(util.get_entry(q1)),
-                "has": all([char in entries for char in q1]),
                 })
         except:
             return render(request, "encyclopedia/search.html", {
@@ -147,8 +135,7 @@ def q(request):
                 })
 
 
-
-
+# renders random page
 def random_page(request):
     entries = util.list_entries() # list of wikis
     selected_page = random.choice(entries)

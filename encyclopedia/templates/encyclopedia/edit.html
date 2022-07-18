@@ -6,18 +6,16 @@
 
 {% block body %}
     <h1>Edit page</h1>
-    <h1>{{ cap | safe }}</h1>
     <h1>{{ title  }}</h1>
-    <h1>{{ content }}</h1>
-    <h1>{{ request }}</h1>
+ 
     
 
-    <form action="" method="post" novalidate name="edit">
+    <form action="" method="post" novalidate name="edit1">
     {% csrf_token %}
-    <p><label for="id_message">title: {{ title }}</label>
-        <input name="title" id="id_message" required></p>
-    <p><label for="id_message">Content:</label>
-        <textarea name="content" id="id_message" required> {{ content }}</textarea></p>
+    <p><label for="id_message">Title: </label>
+        <input name="title" id="id_message" value="{{ title }}" required></p>
+    <p><label for="id_message">Content: </label>
+        <textarea name="content" id="id_message" required> {{ content | safe }}</textarea></p>
     
     <input type="submit" value="Edit Entry">
 

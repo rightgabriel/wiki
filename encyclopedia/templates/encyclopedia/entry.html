@@ -7,20 +7,17 @@
 {% block body %}
 
 
-    <h1>{{ cap }}</h1>
-
-
     <div >
         {{ content | safe }}
       
     </div>
 
-    <form action="" method="POST" novalidate>
+    <form action="{% url 'edit2' %}" method="GET" novalidate>
         {% csrf_token %}
-            <input name="title" type="hidden" ></p>
-            <input name="content" type="hidden" ></p>
+        <input type="hidden" value="{{ title }}" name="title">
+
         
-        <input type="submit" value="Edit Entry" name="edit">
+        <input type="submit" value="Edit Entry" name="edit2">
     
         </form>
         
